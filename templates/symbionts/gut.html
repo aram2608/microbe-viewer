@@ -1,5 +1,138 @@
 {% extends 'base.html' %}
 
+{% block title %}Gut Microbiota{% endblock %}
+
+{% block styles %}
+<style>
+    .gut-grid {
+        grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    }
+
+    .gut-card {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        height: 100%;
+        padding: 0;
+        overflow: hidden;
+        transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .gut-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 18px 36px color-mix(in srgb, var(--text) 18%, transparent);
+    }
+
+    .gut-media {
+        margin: 0;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+    }
+
+    .gut-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .gut-placeholder {
+        display: grid;
+        place-items: center;
+        width: 100%;
+        height: 100%;
+        font-size: 0.9rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        color: color-mix(in srgb, var(--text) 82%, #ffffff 18%);
+        background: linear-gradient(135deg, color-mix(in srgb, var(--accent-soft) 75%, var(--surface) 25%), color-mix(in srgb, var(--accent) 35%, var(--surface-elevated) 65%));
+    }
+
+    .gut-content {
+        display: grid;
+        align-content: start;
+        gap: 0.75rem;
+        padding: 1rem 1rem 1.25rem;
+    }
+
+    .gut-card h2 {
+        margin: 0 0 0.2rem;
+        font-size: 1.15rem;
+        line-height: 1.35;
+    }
+
+    .gut-card p {
+        margin: 0;
+        color: var(--text-muted);
+        line-height: 1.6;
+        text-wrap: pretty;
+    }
+
+    .gut-card a {
+        color: var(--accent);
+        font-weight: 600;
+        text-underline-offset: 0.2em;
+    }
+
+    .gut-card a:hover {
+        color: var(--accent-strong);
+    }
+
+    @media (max-width: 640px) {
+        .gut-content {
+            padding: 0.9rem;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-    <a href="{{ url_for('symbionts') }}">Implement me</p>
+<section class="page-intro">
+    <p class="eyebrow">Microbial Community</p>
+    <h1 class="main-heading">Gut Microbiota</h1>
+    <p class="lead">Trillions of microbes colonize the human gut, shaping digestion, immunity, and metabolism.</p>
+</section>
+
+<section class="card-grid gut-grid" aria-label="Gut microbiota cards">
+    <article class="card gut-card">
+        <figure class="gut-media">
+            <div class="gut-placeholder">TODO</div>
+        </figure>
+        <div class="gut-content">
+            <h2><i>Escherichia coli</i>: A familiar gut resident with an outsized reputation.</h2>
+            <p>
+                <i>E. coli</i> is best known as a pathogen, but the vast majority of strains are harmless commensals
+                that colonize the gut within hours of birth. Commensal strains compete with pathogens for nutrients and attachment sites,
+                providing colonization resistance to the host.
+            </p>
+        </div>
+    </article>
+
+    <article class="card gut-card">
+        <figure class="gut-media">
+            <div class="gut-placeholder">TODO</div>
+        </figure>
+        <div class="gut-content">
+            <h2><i>Lactobacillus</i>: Lactic acid producers that shape the gut environment.</h2>
+            <p>
+                <i>Lactobacillus</i> species ferment sugars to lactic acid, lowering local pH and
+                inhibiting less acid-tolerant competitors. Members of this genus are also found in fermented foods and are among
+                the most widely studied probiotic microorganisms.
+            </p>
+        </div>
+    </article>
+
+    <article class="card gut-card">
+        <figure class="gut-media">
+            <div class="gut-placeholder">TODO</div>
+        </figure>
+        <div class="gut-content">
+            <h2><i>Bacteroides thetaiotaomicron</i>: A versatile carbohydrate specialist.</h2>
+            <p>
+                <i>Bacteroides thetaiotaomicron</i> encodes an unusually large repertoire of glycoside
+                hydrolases, allowing it to break down complex plant polysaccharides the host cannot digest on its own.
+                Its genomic flexibility makes it a model for understanding how the gut microbiome adapts to dietary changes.
+            </p>
+        </div>
+    </article>
+</section>
 {% endblock %}

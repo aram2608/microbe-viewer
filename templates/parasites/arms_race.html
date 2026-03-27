@@ -1,5 +1,201 @@
 {% extends 'base.html' %}
 
+{% block title %}Evolutionary Arms Race{% endblock %}
+
+{% block styles %}
+<style>
+    .topic-article {
+        max-width: 64rem;
+        margin: 0 auto;
+        display: grid;
+        gap: var(--space-5);
+    }
+
+    .topic-section {
+        display: grid;
+        grid-template-columns: minmax(14rem, 1fr) minmax(18rem, 1.4fr);
+        padding: 0;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-l);
+        background: linear-gradient(160deg, var(--surface-elevated), var(--surface));
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        isolation: isolate;
+    }
+
+    .topic-section-media {
+        margin: 0;
+        min-height: clamp(12rem, 24vw, 18rem);
+        overflow: hidden;
+    }
+
+    .topic-section-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .topic-placeholder {
+        display: grid;
+        place-items: center;
+        width: 100%;
+        height: 100%;
+        padding: 1rem;
+        text-align: center;
+        font-size: 0.92rem;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: color-mix(in srgb, var(--text) 82%, #ffffff 18%);
+        background: linear-gradient(135deg, color-mix(in srgb, var(--accent-soft) 65%, var(--surface) 35%), color-mix(in srgb, var(--accent) 30%, var(--surface-elevated) 70%));
+    }
+
+    .topic-section-content {
+        display: grid;
+        align-content: start;
+        gap: var(--space-3);
+        padding: clamp(1rem, 2.4vw, 1.6rem);
+    }
+
+    .topic-section-content h2 {
+        margin: 0;
+        line-height: 1.25;
+        font-size: clamp(1.1rem, 2vw, 1.4rem);
+    }
+
+    .topic-section-content p {
+        margin: 0;
+        color: var(--text-muted);
+        line-height: 1.65;
+        text-wrap: pretty;
+    }
+
+    .topic-section-content a {
+        color: var(--accent);
+        font-weight: 600;
+        text-underline-offset: 0.2em;
+    }
+
+    .topic-section-content a:hover {
+        color: var(--accent-strong);
+    }
+
+    .topic-tag-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .topic-tag-list li {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 0.3rem 0.68rem;
+        background: color-mix(in srgb, var(--surface-elevated) 60%, transparent);
+        font-size: 0.82rem;
+        color: var(--text-muted);
+    }
+
+    @media (max-width: 52rem) {
+        .topic-section {
+            grid-template-columns: 1fr;
+        }
+
+        .topic-section-media {
+            min-height: 11rem;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-    <a href="{{ url_for('parasites') }}">Implement me</p>
+<section class="page-intro">
+    <p class="eyebrow">Coevolution</p>
+    <h1 class="main-heading">Evolutionary Arms Race</h1>
+    <p class="lead">Host and parasite evolve in lockstep — each new defense met with a new evasion, driving perpetual escalation.</p>
+</section>
+
+<div class="topic-article" aria-label="Arms race concept sections">
+
+    <article class="topic-section">
+        <figure class="topic-section-media">
+            <div class="topic-placeholder">TODO</div>
+        </figure>
+        <div class="topic-section-content">
+            <h2>CRISPR vs. phage: a microbial arms race in real time.</h2>
+            <p>
+                The CRISPR-Cas system gives bacteria an adaptive memory of past phage infections. But phages
+                do not sit still, experimental evolution shows that phages rapidly evolve mutations in protospacer sequences
+                to escape CRISPR recognition, while bacteria acquire new spacers targeting these escape mutants. This cycle
+                can be observed directly in serial transfer experiments over days.
+            </p>
+            <p>
+                <a href="https://royalsocietypublishing.org/rstb/article/374/1772/20180098/30430/CRISPR-Cas-immunity-leads-to-a-coevolutionary-arms"> Common and colleagues </a> demonstrated this reciprocal coevolution in <i>Streptococcus thermophilus</i>
+                and its lytic phage over 30 days, showing that both CRISPR spacer acquisition and phage escape mutations occurred
+                continuously. Notably, the arms race was asymmetric: bacteria accumulated defenses faster than phages could escape,
+                eventually driving phage extinction, revealing a limit to what even a rapidly evolving parasite can sustain.
+            </p>
+            <ul class="topic-tag-list" aria-label="CRISPR arms race facts">
+                <li>System: CRISPR-Cas vs. phage</li>
+                <li>Dynamics: Reciprocal coevolution</li>
+                <li>Outcome: Often phage extinction</li>
+            </ul>
+        </div>
+    </article>
+
+    <article class="topic-section">
+        <figure class="topic-section-media">
+            <div class="topic-placeholder">TODO</div>
+        </figure>
+        <div class="topic-section-content">
+            <h2>Antigenic variation: staying one step ahead of immune memory.</h2>
+            <p>
+                For parasites that infect long-lived hosts with adaptive immunity, the arms race takes a different
+                form. Rather than evolving new strains across generations, some parasites switch surface antigens within a single
+                infection. <i>Plasmodium falciparum</i> encodes ~60 <i>var</i> genes for its major surface antigen PfEMP1 and
+                expresses them one at a time, cycling through the repertoire to stay ahead of antibody responses.
+            </p>
+            <p>
+                This strategy is a direct evolutionary response to immune memory: a host that has seen one
+                antigen variant is not protected against the next. The result is chronic, relapsing infection.
+                Antigenic variation of this kind has evolved independently in trypanosomes, <i>Borrelia</i>, and influenza,
+                suggesting it is a common solution to the problem of adaptive host immunity.
+            </p>
+            <ul class="topic-tag-list" aria-label="Antigenic variation facts">
+                <li>Strategy: Surface antigen switching</li>
+                <li>Example: <i>P. falciparum var</i> genes</li>
+                <li>Effect: Chronic infection</li>
+            </ul>
+        </div>
+    </article>
+
+    <article class="topic-section">
+        <figure class="topic-section-media">
+            <div class="topic-placeholder">TODO</div>
+        </figure>
+        <div class="topic-section-content">
+            <h2>The Red Queen: why the race never ends.</h2>
+            <p>
+                The Red Queen hypothesis proposes that hosts and parasites are locked in perpetual coevolution where
+                neither side gains a lasting advantage. Any host mutation that improves resistance is eventually countered by
+                a parasite mutation that restores virulence, and vice versa.
+            </p>
+            <p>
+                This dynamic has broad consequences for evolution beyond host-parasite systems. It is one
+                proposed driver of the evolution of sexual reproduction: genetically diverse offspring produced sexually are
+                harder for parasites to track than genetically identical asexual clones. The arms race, in other words, may be
+                one reason sex exists at all.
+            </p>
+            <ul class="topic-tag-list" aria-label="Red Queen facts">
+                <li>Concept: Red Queen hypothesis</li>
+                <li>Consequence: Sexual reproduction</li>
+                <li>Scale: Evolutionary time</li>
+            </ul>
+        </div>
+    </article>
+
+</div>
 {% endblock %}

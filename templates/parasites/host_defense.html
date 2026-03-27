@@ -1,5 +1,200 @@
 {% extends 'base.html' %}
 
+{% block title %}Host Defense{% endblock %}
+
+{% block styles %}
+<style>
+    .topic-article {
+        max-width: 64rem;
+        margin: 0 auto;
+        display: grid;
+        gap: var(--space-5);
+    }
+
+    .topic-section {
+        display: grid;
+        grid-template-columns: minmax(14rem, 1fr) minmax(18rem, 1.4fr);
+        padding: 0;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-l);
+        background: linear-gradient(160deg, var(--surface-elevated), var(--surface));
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        isolation: isolate;
+    }
+
+    .topic-section-media {
+        margin: 0;
+        min-height: clamp(12rem, 24vw, 18rem);
+        overflow: hidden;
+    }
+
+    .topic-section-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .topic-placeholder {
+        display: grid;
+        place-items: center;
+        width: 100%;
+        height: 100%;
+        padding: 1rem;
+        text-align: center;
+        font-size: 0.92rem;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: color-mix(in srgb, var(--text) 82%, #ffffff 18%);
+        background: linear-gradient(135deg, color-mix(in srgb, var(--accent-soft) 65%, var(--surface) 35%), color-mix(in srgb, var(--accent) 30%, var(--surface-elevated) 70%));
+    }
+
+    .topic-section-content {
+        display: grid;
+        align-content: start;
+        gap: var(--space-3);
+        padding: clamp(1rem, 2.4vw, 1.6rem);
+    }
+
+    .topic-section-content h2 {
+        margin: 0;
+        line-height: 1.25;
+        font-size: clamp(1.1rem, 2vw, 1.4rem);
+    }
+
+    .topic-section-content p {
+        margin: 0;
+        color: var(--text-muted);
+        line-height: 1.65;
+        text-wrap: pretty;
+    }
+
+    .topic-section-content a {
+        color: var(--accent);
+        font-weight: 600;
+        text-underline-offset: 0.2em;
+    }
+
+    .topic-section-content a:hover {
+        color: var(--accent-strong);
+    }
+
+    .topic-tag-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .topic-tag-list li {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 0.3rem 0.68rem;
+        background: color-mix(in srgb, var(--surface-elevated) 60%, transparent);
+        font-size: 0.82rem;
+        color: var(--text-muted);
+    }
+
+    @media (max-width: 52rem) {
+        .topic-section {
+            grid-template-columns: 1fr;
+        }
+
+        .topic-section-media {
+            min-height: 11rem;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-    <a href="{{ url_for('parasites') }}">Implement me</p>
+<section class="page-intro">
+    <p class="eyebrow">Immune Strategies</p>
+    <h1 class="main-heading">Host Defense</h1>
+    <p class="lead">Hosts have evolved layered defenses against microbial parasites, and parasites have evolved ways to get around them.</p>
+</section>
+
+<div class="topic-article" aria-label="Host defense concept sections">
+
+    <article class="topic-section">
+        <figure class="topic-section-media">
+            <div class="topic-placeholder">TODO</div>
+        </figure>
+        <div class="topic-section-content">
+            <h2>Plant immunity: a two-tiered system of detection and escalation.</h2>
+            <p>
+                Plants lack mobile immune cells, so every cell must be capable of defending itself.
+                The first layer of plant immunity, pattern-triggered immunity (PTI), relies on surface receptors that
+                detect conserved microbial features such as flagellin or chitin fragments. When these are recognized, the
+                cell triggers a signaling cascade that activates antimicrobial responses.
+            </p>
+            <p>
+                Successful pathogens deploy effector proteins to suppress PTI. Plants have evolved a second layer,
+                effector-triggered immunity (ETI), using intracellular NBS-LRR receptors that directly or indirectly recognize
+                these effectors. Zig zag model
+            </p>
+            <ul class="topic-tag-list" aria-label="Plant immunity facts">
+                <li>Layer 1: PTI — pattern recognition</li>
+                <li>Layer 2: ETI — effector detection</li>
+                <li>Response: Hypersensitive cell death</li>
+            </ul>
+        </div>
+    </article>
+
+    <article class="topic-section">
+        <figure class="topic-section-media">
+            <div class="topic-placeholder">TODO</div>
+        </figure>
+        <div class="topic-section-content">
+            <h2>Bacterial defense: CRISPR-Cas as an adaptive immune system.</h2>
+            <p>
+                Bacteria face constant predation by bacteriophages and have evolved multiple layers of defense
+                in response. CRISPR-Cas systems are the most sophisticated of these: they function as an adaptive immune memory,
+                storing short sequences from past viral infections and using them to recognize and destroy matching DNA in future encounters.
+            </p>
+            <p>
+                When a bacterium survives a phage infection, the CRISPR machinery can integrate a short fragment of
+                the phage genome, called a spacer, into the bacterial chromosome. On reinfection, the spacer is transcribed into
+                guide RNA that directs the Cas nuclease to the matching phage sequence and cuts it. This system is heritable, giving
+                daughter cells a record of their ancestors' infections.
+            </p>
+            <ul class="topic-tag-list" aria-label="CRISPR defense facts">
+                <li>Host: Bacteria and Archaea</li>
+                <li>Target: Phage DNA/RNA</li>
+                <li>Memory: Spacer acquisition</li>
+            </ul>
+        </div>
+    </article>
+
+    <article class="topic-section">
+        <figure class="topic-section-media">
+            <div class="topic-placeholder">TODO</div>
+        </figure>
+        <div class="topic-section-content">
+            <h2>Human immunity and evasion by intracellular parasites.</h2>
+            <p>
+                The human immune system deploys both innate and adaptive responses against microbial parasites.
+                Innate responses are fast and general, phagocytes engulf and destroy pathogens, while cytokines coordinate
+                inflammation. Adaptive responses are slower but targeted: T and B cells recognize specific antigens and generate
+                long-lived memory.
+            </p>
+            <p>
+                Intracellular parasites have evolved strategies to survive inside the very cells designed to
+                kill them. Some avoid the lysosome, others interfere with antigen presentation, and some, like <i>Plasmodium</i>,
+                undergo rapid antigenic variation to stay ahead of antibody responses. These evasion strategies are the result
+                of millions of years of coevolution.
+            </p>
+            <ul class="topic-tag-list" aria-label="Human immunity facts">
+                <li>Innate: Fast, non-specific</li>
+                <li>Adaptive: Slow, targeted</li>
+                <li>Evasion: Variation, hiding</li>
+            </ul>
+        </div>
+    </article>
+
+</div>
 {% endblock %}
