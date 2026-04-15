@@ -1,89 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Plant Partners{% endblock %}
-
-{% block styles %}
-<style>
-    .plant-grid {
-        grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-    }
-
-    .plant-card {
-        display: grid;
-        grid-template-rows: auto 1fr;
-        height: 100%;
-        padding: 0;
-        overflow: hidden;
-        transition: transform 180ms ease, box-shadow 180ms ease;
-    }
-
-    .plant-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 18px 36px color-mix(in srgb, var(--text) 18%, transparent);
-    }
-
-    .plant-media {
-        margin: 0;
-        aspect-ratio: 16 / 9;
-        overflow: hidden;
-    }
-
-    .plant-media img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-
-    .plant-placeholder {
-        display: grid;
-        place-items: center;
-        width: 100%;
-        height: 100%;
-        font-size: 0.9rem;
-        font-weight: 600;
-        letter-spacing: 0.02em;
-        color: color-mix(in srgb, var(--text) 82%, #ffffff 18%);
-        background: linear-gradient(135deg, color-mix(in srgb, var(--accent-soft) 75%, var(--surface) 25%), color-mix(in srgb, var(--accent) 35%, var(--surface-elevated) 65%));
-    }
-
-    .plant-content {
-        display: grid;
-        align-content: start;
-        gap: 0.75rem;
-        padding: 1rem 1rem 1.25rem;
-    }
-
-    .plant-card h2 {
-        margin: 0 0 0.2rem;
-        font-size: 1.15rem;
-        line-height: 1.35;
-    }
-
-    .plant-card p {
-        margin: 0;
-        color: var(--text-muted);
-        line-height: 1.6;
-        text-wrap: pretty;
-    }
-
-    .plant-card a {
-        color: var(--accent);
-        font-weight: 600;
-        text-underline-offset: 0.2em;
-    }
-
-    .plant-card a:hover {
-        color: var(--accent-strong);
-    }
-
-    @media (max-width: 640px) {
-        .plant-content {
-            padding: 0.9rem;
-        }
-    }
-</style>
-{% endblock %}
+{% block title %}Plant Partners — Microbe Browser{% endblock %}
 
 {% block content %}
 <section class="page-intro">
@@ -92,46 +9,54 @@
     <p class="lead">Soil microbes form intimate partnerships with plant roots, supplying nitrogen and nutrients in exchange for carbon.</p>
 </section>
 
-<section class="card-grid plant-grid" aria-label="Plant symbiont cards">
-    <article class="card plant-card">
-        <figure class="plant-media">
-            <div class="plant-placeholder">TODO</div>
+<section class="card-grid species-grid" aria-label="Plant symbiont cards">
+    <article class="species-card">
+        <figure class="species-media">
+            <img src="{{ url_for('media', path='soybean_root_nodules.jpg') }}" alt="Soybean root nodules formed by Bradyrhizobium symbiosis" loading="lazy" decoding="async">
         </figure>
-        <div class="plant-content">
-            <h2><i>Sinorhizobium meliloti</i>: Fixing nitrogen for alfalfa and beyond.</h2>
+        <div class="species-content">
+            <h2><i>Sinorhizobium (Ensifer) meliloti</i>: Fixing nitrogen for alfalfa and beyond.</h2>
             <p>
-                <i>Sinorhizobium meliloti</i> is a soil bacterium that infects the roots of legumes like alfalfa,
+                <i>Sinorhizobium (Ensifer) meliloti</i> is a soil bacterium that infects the roots of legumes like alfalfa,
                 inducing the formation of nodules where it converts atmospheric N₂ into ammonia the plant can use.
-                Its tripartite genome encodes an unusually complex signaling toolkit for recognizing compatible host plants.
+                Its complex genome encodes a rich signaling toolkit for recognizing compatible host plants, and recent evidence suggests a surprisingly minimal subset of genes is sufficient to establish a <a href="https://www.pnas.org/doi/10.1073/pnas.2018015118">symbiosis</a> (Geddes et al., 2021).
+                Adding to the intrigue, "cheater" strains that contribute little fixed nitrogen can persist in communities alongside cooperative partners, raising questions about how hosts enforce cooperation and how symbionts behave in complex soil environments. These dynamics place <i>S. meliloti</i> squarely in the conversation around the burgeoning field of <a href="https://www.ncbi.nlm.nih.gov/books/NBK84461/">sociomicrobiology</a> (Greenberg, 2011).
             </p>
         </div>
     </article>
 
-    <article class="card plant-card">
-        <figure class="plant-media">
-            <div class="plant-placeholder">TODO</div>
+    <article class="species-card">
+        <figure class="species-media">
+            <img src="{{ url_for('media', path='sporangium_of_frankia.jpg') }}" alt="Sporangium of symbiotic nitrogen-fixing bacterium Frankia" loading="lazy" decoding="async">
         </figure>
-        <div class="plant-content">
+        <div class="species-content">
             <h2><i>Frankia</i>: Nitrogen-fixer for plants that legumes left behind.</h2>
             <p>
-                <i>Frankia</i> is a filamentous actinobacterium that forms nitrogen-fixing nodules on non-legume plants
-                called actinorhizal plants, including alder and sea buckthorn. Unlike rhizobia, Frankia can also fix nitrogen
-                in free-living culture, giving it unusual flexibility as both a soil microbe and a symbiont.
+                <i>Frankia</i> is a filamentous actinobacterium that forms nitrogen-fixing nodules on the roots of non-legume
+                plants called actinorhizal hosts, including alder, casuarina, and sea buckthorn. Unlike rhizobia, which depend
+                entirely on plant tissue to survive, <i>Frankia</i> can also fix nitrogen in free-living culture thanks to
+                <a href="https://www.pnas.org/doi/10.1073/pnas.90.13.6091">its protective hopanoid layer</a> (Berry et al., 1993), which shields
+                nitrogenase from oxygen and gives the bacterium unusual flexibility as both a soil microbe and a symbiont.
+                These bacteria are also particularly resilient, tolerating elevated concentrations of
+                <a href="https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2016.01331/full">salt</a> (Ngom et al., 2016),
+                <a href="https://link.springer.com/article/10.1007/s00253-014-5849-6">copper</a> (Rehan et al., 2014), and a variety of other
+                compounds that would inhibit less hardy organisms.
             </p>
         </div>
     </article>
 
-    <article class="card plant-card">
-        <figure class="plant-media">
-            <div class="plant-placeholder">TODO</div>
+    <article class="species-card">
+        <figure class="species-media">
+            <img src="{{ url_for('media', path='rhizophagus_irregularis_mycorrhiza.jpg') }}" alt="Mycelial network of Rhizophagus irregularis inside Vicia faba root cells" loading="lazy" decoding="async">
         </figure>
-        <div class="plant-content">
+        <div class="species-content">
             <h2><i>Rhizophagus irregularis</i>: The ancient fungal partner most plants rely on.</h2>
             <p>
-                Arbuscular mycorrhizal fungi like <i>Rhizophagus irregularis</i> colonize the roots of over 80%
-                of land plant species. The fungus extends its hyphae far beyond the root zone, dramatically increasing phosphorus
-                uptake. Its genome lacks fatty acid synthesis genes entirely, it depends on the host for lipids, making
-                the partnership obligate on the fungal side.
+                Arbuscular mycorrhizal fungi like <i>Rhizophagus irregularis</i> colonize the roots of
+                <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0240886">around 70% of land plant species</a> (Pons et al., 2020).
+                The fungus extends its hyphae far beyond the root zone, dramatically
+                <a href="https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2022.831654/full">increasing phosphorus uptake</a> (Qi et al., 2022).
+                For the most part, it depends on the host for lipids, making it an <a href="https://www.nature.com/articles/s41598-025-88416-3">obligate biotroph</a> (Tamayo et al., 2025).
             </p>
         </div>
     </article>

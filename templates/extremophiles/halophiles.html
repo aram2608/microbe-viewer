@@ -1,87 +1,6 @@
 {% extends 'base.html' %}
 
-{% block styles %}
-<style>
-    .halophile-grid {
-        grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-    }
-
-    .halophile-card {
-        display: grid;
-        grid-template-rows: auto 1fr;
-        height: 100%;
-        padding: 0;
-        overflow: hidden;
-        transition: transform 180ms ease, box-shadow 180ms ease;
-    }
-
-    .halophile-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 18px 36px color-mix(in srgb, var(--text) 18%, transparent);
-    }
-
-    .halophile-media {
-        margin: 0;
-        aspect-ratio: 16 / 9;
-        overflow: hidden;
-        background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 70%, #ffb347 30%), var(--accent));
-    }
-
-    .halophile-media img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-
-    .halophile-placeholder {
-        display: grid;
-        place-items: center;
-        width: 100%;
-        height: 100%;
-        font-size: 0.9rem;
-        font-weight: 600;
-        letter-spacing: 0.02em;
-        color: color-mix(in srgb, var(--text) 82%, #ffffff 18%);
-        background: linear-gradient(135deg, color-mix(in srgb, var(--accent-soft) 75%, var(--surface) 25%), color-mix(in srgb, var(--accent) 35%, var(--surface-elevated) 65%));
-    }
-
-    .halophile-content {
-        display: grid;
-        gap: 0.75rem;
-        padding: 1rem 1rem 1.25rem;
-    }
-
-    .halophile-card h2 {
-        margin: 0 0 0.2rem;
-        font-size: 1.15rem;
-        line-height: 1.35;
-    }
-
-    .halophile-card p {
-        margin: 0;
-        color: var(--text-muted);
-        line-height: 1.6;
-        text-wrap: pretty;
-    }
-
-    .halophile-card a {
-        color: var(--accent);
-        font-weight: 600;
-        text-underline-offset: 0.2em;
-    }
-
-    .halophile-card a:hover {
-        color: var(--accent-strong);
-    }
-
-    @media (max-width: 640px) {
-        .halophile-content {
-            padding: 0.9rem;
-        }
-    }
-</style>
-{% endblock %}
+{% block title %}Halophiles — Microbe Browser{% endblock %}
 
 {% block content %}
 <section class="page-intro">
@@ -90,42 +9,47 @@
     <p class="lead">Microbes adapted to extreme salinity, from salt flats to hypersaline lakes.</p>
 </section>
 
-<section class="card-grid halophile-grid" aria-label="Halophile cards">
-    <article class="card halophile-card">
-        <figure class="halophile-media">
-            <div class="halophile-placeholder">TODO</div>
+<section class="card-grid species-grid" aria-label="Halophile cards">
+    <article class="species-card">
+        <figure class="species-media">
+            <img src="{{ url_for('media', path='halobacterium_salinarum.png') }}" alt="Scanning electron micrograph of Halobacterium salinarum NRC-1" loading="lazy" decoding="async">
         </figure>
-        <div class="halophile-content">
+        <div class="species-content">
             <h2><i>Halobacterium salinarum</i>: A salty diva.</h2>
             <p>
             <i>Halobacterium salinarum</i> is well known for its purple color, resulting from
             the production of bacteriorhodopsin. This protein is an important light-driven ion pump that helps drive the production of chemical energy.
-            This pump has roused a fair amount of scientific intrigue given its simplicity, making it one of the <a href="https://www.microbiologyresearch.org/content/journal/micro/10.1099/mic.0.001327">best understood pumps</a> of its kind.
-            <i>H. salinarum</i> is energetically flexible, capable of growing as an aerobic chemoorganotroph or anaerobically relying on the bacteriorhodopsin pump. Interestingly, the <a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000332">proposed oxidative phosphorylation</a> pathway has demonstrated
+            This pump has roused a fair amount of scientific intrigue given its simplicity, making it one of the <a href="https://www.microbiologyresearch.org/content/journal/micro/10.1099/mic.0.001327">best understood pumps</a> (Eichler, 2023) of its kind.
+            <i>H. salinarum</i> is energetically flexible, capable of growing as an aerobic chemoorganotroph or anaerobically relying on the bacteriorhodopsin pump. Interestingly, the <a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000332">proposed oxidative phosphorylation</a> (Gonzalez et al., 2009) pathway has demonstrated
             differences from the traditional and better studied pathways in <i>E. coli</i> and the mitochondria.
-            Furthermore, the genome itself has shown itself to be remarkably plastic with its large
-            number of insertion elements, a feature thought to drive rapid adaptation to fluctuating saline environments.
+            Furthermore, the genome itself is remarkably plastic with its large
+            number of insertion elements, a feature thought to drive rapid adaptation to fluctuating saline environments (Eichler, 2023).
             </p>
         </div>
     </article>
 
-    <article class="card halophile-card">
-        <figure class="halophile-media">
-            <div class="halophile-placeholder">TODO</div>
+    <article class="species-card">
+        <figure class="species-media">
+            <img src="{{ url_for('media', path='haloferax_volcanii.png') }}" alt="Phase contrast microscopy of Haloferax volcanii on an agar pad" loading="lazy" decoding="async">
         </figure>
-        <div class="halophile-content">
+        <div class="species-content">
             <h2><i>Haloferax volcanii</i>: The salt lover for the lab.</h2>
-            <p></p>
+            <p>
+                <i>Haloferax volcanii</i> is a unique archaeal species given that it has seen a rich
+                development of a molecular toolkit and it's easy to <a href="https://journals.asm.org/doi/10.1128/jb.00062-25">culture</a> (Pohlschroder et al, 2025), making it an ideal model organism for extreme environments. It was first isolated from the Dead Sea in the 1970s and named after Dr. Volcani, quickly gaining traction in the lab after the development of a <a href="https://journals.asm.org/doi/10.1128/jb.169.3.1341-1344.1987">transforming protocol</a> (Cline &amp; Doolittle, 1987). Progress was then required in developing selective markers in order to select for desirable mutants, with the discovery of <a href="https://www.webofscience.com/wos/woscc/full-record/WOS:A1986A425300016">mevinolin and its derivatives</a> as a great boon towards the continued development of the molecular toolkit. Along with knockout lines and genome sequencing, this interesting archaeon shows the progression of how niche organisms can quickly gain traction as model organisms, and how the development of a strong molecular toolkit is a necessary prerequisite towards this status.
+            </p>
         </div>
     </article>
 
-    <article class="card halophile-card">
-        <figure class="halophile-media">
-            <div class="halophile-placeholder">TODO</div>
+    <article class="species-card">
+        <figure class="species-media">
+            <img src="{{ url_for('media', path='hypersaline_lake_urmia.jpg') }}" alt="Lake Urmia, Iran, turned red by halophilic archaea" loading="lazy" decoding="async">
         </figure>
-        <div class="halophile-content">
-            <h2><i>Salinibacter ruber</i>: The bacteria cosplaying as an archaea.</h2>
-            <p></p>
+        <div class="species-content">
+            <h2><i>Salinibacter ruber</i>: The bacterium cosplaying as an archaeon.</h2>
+            <p>
+            When one imagines an extremophile, they often conjure up an image of archaea, given their impressive reputations for tolerating every extreme environment Earth can throw at them. <i>Salinibacter ruber</i> is a particularly tenacious species of bacteria that bucks the trend, demonstrating tolerance can be attributed to a broader range of organisms than is often thought. It is a rod-shaped bacterium with a unique orangish hue that grows optimally at 20-30% salt concentrations, making it one of the more tolerant of halophiles. It has several other interesting features such as its well-studied <a href="https://www.sciencedirect.com/science/article/pii/S0022227520371108?via%3Dihub">lipids</a> (Baronio et al., 2010), <a href="https://www.sciencedirect.com/science/article/pii/S1386142512013169">Bacterioruberin and salinixanthin carotenoid production</a> (Jehlička et al., 2013), and its importance for evolutionary studies given its identity crisis as a bacteria that dreams of being an archaea.
+            </p>
         </div>
     </article>
 

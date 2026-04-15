@@ -1,118 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Marine Symbionts{% endblock %}
-
-{% block styles %}
-<style>
-    .marine-showcase {
-        max-width: 64rem;
-        margin: 0 auto;
-        display: grid;
-        gap: var(--space-5);
-    }
-
-    .marine-card {
-        display: grid;
-        grid-template-columns: minmax(16rem, 1fr) minmax(18rem, 1.1fr);
-        padding: 0;
-        border: 1px solid var(--border);
-        border-radius: var(--radius-l);
-        background: linear-gradient(160deg, var(--surface-elevated), var(--surface));
-        box-shadow: var(--shadow);
-        overflow: hidden;
-        isolation: isolate;
-    }
-
-    .marine-media {
-        margin: 0;
-        min-height: clamp(14rem, 28vw, 20rem);
-        overflow: hidden;
-        background:
-            radial-gradient(circle at 20% 18%, color-mix(in srgb, var(--accent-soft) 75%, transparent), transparent 42%),
-            linear-gradient(155deg, color-mix(in srgb, var(--accent) 25%, var(--surface-elevated) 75%), var(--surface));
-    }
-
-    .marine-media img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-
-    .marine-placeholder {
-        display: grid;
-        place-items: center;
-        width: 100%;
-        height: 100%;
-        padding: 1rem;
-        text-align: center;
-        font-size: 0.92rem;
-        font-weight: 600;
-        letter-spacing: 0.03em;
-        text-transform: uppercase;
-        color: color-mix(in srgb, var(--text) 82%, #ffffff 18%);
-        background: linear-gradient(135deg, color-mix(in srgb, var(--accent-soft) 65%, var(--surface) 35%), color-mix(in srgb, var(--accent) 30%, var(--surface-elevated) 70%));
-    }
-
-    .marine-content {
-        display: grid;
-        align-content: start;
-        gap: var(--space-3);
-        padding: clamp(1rem, 2.4vw, 1.6rem);
-    }
-
-    .marine-content h2 {
-        margin: 0;
-        line-height: 1.25;
-        font-size: clamp(1.2rem, 2.3vw, 1.6rem);
-    }
-
-    .marine-content p {
-        margin: 0;
-        color: var(--text-muted);
-        line-height: 1.65;
-        text-wrap: pretty;
-    }
-
-    .marine-content a {
-        color: var(--accent);
-        font-weight: 600;
-        text-underline-offset: 0.2em;
-    }
-
-    .marine-content a:hover {
-        color: var(--accent-strong);
-    }
-
-    .marine-meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.55rem;
-        margin: 0;
-        padding: 0;
-        list-style: none;
-    }
-
-    .marine-meta li {
-        border: 1px solid var(--border);
-        border-radius: 999px;
-        padding: 0.3rem 0.68rem;
-        background: color-mix(in srgb, var(--surface-elevated) 60%, transparent);
-        font-size: 0.82rem;
-        color: var(--text-muted);
-    }
-
-    @media (max-width: 52rem) {
-        .marine-card {
-            grid-template-columns: 1fr;
-        }
-
-        .marine-media {
-            min-height: 12.5rem;
-        }
-    }
-</style>
-{% endblock %}
+{% block title %}Marine Symbionts — Microbe Browser{% endblock %}
 
 {% block content %}
 <section class="page-intro">
@@ -121,27 +9,27 @@
     <p class="lead">Microbial partnerships in the ocean sustain some of the most productive ecosystems on Earth.</p>
 </section>
 
-<section class="marine-showcase" aria-label="Marine symbiont features">
-    <article class="marine-card">
-        <figure class="marine-media">
-            <div class="marine-placeholder">TODO</div>
+<section class="feature-stack" aria-label="Marine symbiont features">
+    <article class="feature-card">
+        <figure class="feature-media">
+            <img src="{{ url_for('media', path='coral_bleaching.jpg') }}" alt="Coral bleaching in Hawaii" loading="lazy" decoding="async">
         </figure>
-        <div class="marine-content">
-            <h2>Coral and <i>Symbiodinium</i>: A partnership that built the reef.</h2>
+        <div class="feature-content">
+            <h2>Coral and <i>Symbiodinium</i>: An endangered combo.</h2>
             <p>
-                Coral reefs cover less than 1% of the ocean floor but support roughly 25% of all marine species.
+                Coral reefs cover <a href="https://www.sprep.org/attachments/VirLib/Global/importance-destruction-recovery-coral-reefs.pdf">less than 1% of the ocean floor but support roughly 25%</a> (Hoek &amp; Bayoumi, 2017) of all marine species.
                 The foundation of this productivity is a symbiosis between coral animals and photosynthetic dinoflagellates
-                called Symbiodiniaceae. The algae live inside coral cells and supply up to 90% of the coral's energy through
-                photosynthesis, while the coral provides shelter and inorganic nutrients in return.
+                called Symbiodiniaceae. The algae live inside coral cells and supply a part of the coral's energy through
+                <a href="https://www.nature.com/articles/s41598-023-48020-9">photosynthesis</a> (Matthews et al., 2023), while the coral provides shelter and inorganic nutrients in return.
             </p>
             <p>
                 This partnership is sensitive to thermal stress. When water temperatures rise, corals expel
-                their algal partners in a process called bleaching. Without the algae, the coral loses its color and its primary
+                their algal partners in a process called <a href="https://www.cell.com/trends/ecology-evolution/fulltext/S0169-5347(08)00323-6">bleaching</a> (Baird et al., 2009). Without the algae, the coral loses its color and its primary
                 energy source. Prolonged bleaching leads to starvation and death. Understanding the genetic diversity of
                 Symbiodiniaceae and what determines thermal tolerance is an active area of research with direct implications
                 for reef conservation.
             </p>
-            <ul class="marine-meta" aria-label="Symbiodinium quick facts">
+            <ul class="feature-tags" aria-label="Symbiodinium quick facts">
                 <li>Domain: Eukaryota</li>
                 <li>Type: Dinoflagellate</li>
                 <li>Role: Photosymbiont</li>

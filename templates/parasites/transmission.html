@@ -1,145 +1,28 @@
 {% extends 'base.html' %}
 
-{% block title %}Transmission{% endblock %}
-
-{% block styles %}
-<style>
-    .topic-article {
-        max-width: 64rem;
-        margin: 0 auto;
-        display: grid;
-        gap: var(--space-5);
-    }
-
-    .topic-section {
-        display: grid;
-        grid-template-columns: minmax(14rem, 1fr) minmax(18rem, 1.4fr);
-        padding: 0;
-        border: 1px solid var(--border);
-        border-radius: var(--radius-l);
-        background: linear-gradient(160deg, var(--surface-elevated), var(--surface));
-        box-shadow: var(--shadow);
-        overflow: hidden;
-        isolation: isolate;
-    }
-
-    .topic-section-media {
-        margin: 0;
-        min-height: clamp(12rem, 24vw, 18rem);
-        overflow: hidden;
-        background:
-            radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--accent-soft) 70%, transparent), transparent 50%),
-            linear-gradient(150deg, color-mix(in srgb, var(--accent) 20%, var(--surface-elevated) 80%), var(--surface));
-    }
-
-    .topic-section-media img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-
-    .topic-placeholder {
-        display: grid;
-        place-items: center;
-        width: 100%;
-        height: 100%;
-        padding: 1rem;
-        text-align: center;
-        font-size: 0.92rem;
-        font-weight: 600;
-        letter-spacing: 0.03em;
-        text-transform: uppercase;
-        color: color-mix(in srgb, var(--text) 82%, #ffffff 18%);
-        background: linear-gradient(135deg, color-mix(in srgb, var(--accent-soft) 65%, var(--surface) 35%), color-mix(in srgb, var(--accent) 30%, var(--surface-elevated) 70%));
-    }
-
-    .topic-section-content {
-        display: grid;
-        align-content: start;
-        gap: var(--space-3);
-        padding: clamp(1rem, 2.4vw, 1.6rem);
-    }
-
-    .topic-section-content h2 {
-        margin: 0;
-        line-height: 1.25;
-        font-size: clamp(1.1rem, 2vw, 1.4rem);
-    }
-
-    .topic-section-content p {
-        margin: 0;
-        color: var(--text-muted);
-        line-height: 1.65;
-        text-wrap: pretty;
-    }
-
-    .topic-section-content a {
-        color: var(--accent);
-        font-weight: 600;
-        text-underline-offset: 0.2em;
-    }
-
-    .topic-section-content a:hover {
-        color: var(--accent-strong);
-    }
-
-    .topic-tag-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.55rem;
-        margin: 0;
-        padding: 0;
-        list-style: none;
-    }
-
-    .topic-tag-list li {
-        border: 1px solid var(--border);
-        border-radius: 999px;
-        padding: 0.3rem 0.68rem;
-        background: color-mix(in srgb, var(--surface-elevated) 60%, transparent);
-        font-size: 0.82rem;
-        color: var(--text-muted);
-    }
-
-    @media (max-width: 52rem) {
-        .topic-section {
-            grid-template-columns: 1fr;
-        }
-
-        .topic-section-media {
-            min-height: 11rem;
-        }
-    }
-</style>
-{% endblock %}
+{% block title %}Transmission — Microbe Browser{% endblock %}
 
 {% block content %}
 <section class="page-intro">
     <p class="eyebrow">Routes of Spread</p>
     <h1 class="main-heading">Transmission</h1>
-    <p class="lead">How microbial parasites move between hosts — from direct predation to vector-borne journeys across continents.</p>
+    <p class="lead">How microbial parasites move between hosts, from direct predation to vector-borne journeys across continents.</p>
 </section>
 
-<div class="topic-article" aria-label="Transmission concept sections">
+<div class="feature-stack" aria-label="Transmission concept sections">
 
-    <article class="topic-section">
-        <figure class="topic-section-media">
-            <div class="topic-placeholder">TODO</div>
+    <article class="feature-card">
+        <figure class="feature-media">
+            <img src="{{ url_for('media', path='bdellovibrio_bacteriovorus.jpg') }}" alt="Cryo-electron tomogram of Bdellovibrio bacteriovorus" loading="lazy" decoding="async">
         </figure>
-        <div class="topic-section-content">
+        <div class="feature-content">
             <h2>Bacterial predation: <i>Bdellovibrio bacteriovorus</i> and direct invasion.</h2>
             <p>
                 <i>Bdellovibrio bacteriovorus</i> is a small, fast-swimming predator that identifies prey cells by their
-                outer membrane composition, drills through, and replicates inside the periplasm. This lifecycle is
+                outer membrane composition and <a href="https://enviromicro-journals.onlinelibrary.wiley.com/doi/full/10.1111/1462-2920.15844">drills through then replicates in the periplasm</a> (Mookherjee et al., 2021). This lifecycle is
                 entirely intracellular and obligately dependent on a living host.
             </p>
-            <p>
-                The genomic basis for this lifestyle, identified from the HD100 genome, includes an
-                unusually large arsenal of hydrolytic enzymes for digesting host macromolecules, and dedicated chemotaxis
-                machinery for prey detection. As such, transmission in this instance only requires proximity to their prey.
-            </p>
-            <ul class="topic-tag-list" aria-label="Bdellovibrio facts">
+            <ul class="feature-tags" aria-label="Bdellovibrio facts">
                 <li>Host: Gram-negative bacteria</li>
                 <li>Entry: Periplasmic invasion</li>
                 <li>Transmission: Direct contact</li>
@@ -147,24 +30,24 @@
         </div>
     </article>
 
-    <article class="topic-section">
-        <figure class="topic-section-media">
-            <div class="topic-placeholder">TODO</div>
+    <article class="feature-card">
+        <figure class="feature-media">
+            <img src="{{ url_for('media', path='phytophthora_infestans.jpg') }}" alt="Tomato infected with Phytophthora infestans late blight" loading="lazy" decoding="async">
         </figure>
-        <div class="topic-section-content">
-            <h2>Plant pathogens: hijacking roots and leaves.</h2>
+        <div class="feature-content">
+            <h2>Plant pathogens.</h2>
             <p>
                 Plant-infecting microbes face a different transmission problem, their hosts cannot move.
                 Many spread through soil via water flow, through insect vectors, or as airborne spores. <i>Phytophthora infestans</i>,
-                the oomycete responsible for the <a href="https://www.nature.com/articles/s41467-024-50749-4">Irish potato famine </a>, produces zoospores that swim through saturated soils and
+                the oomycete responsible for the <a href="https://www.nature.com/articles/s41467-024-50749-4">Irish potato famine</a> (Coomber et al., 2024), produces zoospores that swim through saturated soils and
                 can disperse long distances in wind-carried sporangia.
             </p>
             <p>
-                Once on a leaf surface, it deploys <a href="https://www.sciencedirect.com/science/article/pii/S0021925820737907?via%3Dihub#FN1">RXLR effector proteins</a> into plant cells to suppress
+                Once on a leaf surface, it deploys <a href="https://www.sciencedirect.com/science/article/pii/S0021925820737907?via%3Dihub#FN1">RXLR effector proteins</a> (Boutemy et al., 2011) into plant cells to suppress
                 immunity before the cell has had a chance to mount a defense. Transmission between fields can happen in hours
                 under the right moisture conditions.
             </p>
-            <ul class="topic-tag-list" aria-label="Plant pathogen facts">
+            <ul class="feature-tags" aria-label="Plant pathogen facts">
                 <li>Host: Plants</li>
                 <li>Entry: Stomata and wounds</li>
                 <li>Transmission: Spores, water, wind</li>
@@ -172,24 +55,24 @@
         </div>
     </article>
 
-    <article class="topic-section">
-        <figure class="topic-section-media">
-            <div class="topic-placeholder">TODO</div>
+    <article class="feature-card">
+        <figure class="feature-media">
+            <div class="feature-placeholder">TODO</div>
         </figure>
-        <div class="topic-section-content">
+        <div class="feature-content">
             <h2>Waterborne and vector-borne routes in human parasites.</h2>
             <p>
-                Many of the most globally significant microbial parasites rely on environmental intermediates
-                or animal vectors for transmission. These indirect routes allow parasites to persist even when host density
+                Many of the most globally significant microbial parasites rely on <a href="https://royalsocietypublishing.org/rsos/article/8/6/210088/96062/The-roles-of-environmental-variation-and-parasite">environmental intermediates</a>
+                or <a href="https://www.sciencedirect.com/science/article/pii/S2213224419300288?via%3Dihub">animal vectors for transmission</a> (Turner et al., 2021, Rizolli et al., 2019). These indirect routes allow parasites to persist even when host density
                 is low, and they introduce extra complexity into control efforts.
 
-                Notable species include <i>Cryptosporidium</i> spp., <i>Giardia intestinalis</i>, and <i>Toxoplasma gondii</i>, with <a href="https://www.sciencedirect.com/science/article/pii/S0048969725014305">wastewater epidemiology testing</a> as a proposed
-                method of control. 
+                Notable species include <i>Cryptosporidium</i> spp., <i>Giardia intestinalis</i>, and <i>Toxoplasma gondii</i>, with <a href="https://www.sciencedirect.com/science/article/pii/S0048969725014305">wastewater epidemiology testing</a> (Puchades-Colera et al., 2025) as a proposed
+                method of control.
                 Understanding transmission routes is one of the core goals of epidemiology and is directly
-                tied to how outbreaks are managed. Interrupting the transmission chain, whether by vector control, water treatment,
-                or quarantine, remains the most effective tool available in the absence of targeted treatments.
+                tied to how outbreaks are managed. Interrupting the transmission chain, <a href="https://www.ncbi.nlm.nih.gov/books/NBK52950/">>by vector control, water treatment,
+                or quarantine</a>, remains the most effective tool available in the absence of targeted treatments (Institute of Medicine (US) Forum on Microbial Threats, 2008).
             </p>
-            <ul class="topic-tag-list" aria-label="Transmission route facts">
+            <ul class="feature-tags" aria-label="Transmission route facts">
                 <li>Route: Water, food, vectors</li>
                 <li>Examples: Malaria, cholera</li>
             </ul>

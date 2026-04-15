@@ -1,0 +1,545 @@
+{% extends 'base.html' %}
+
+{% block title %}Quiz — Microbe Browser{% endblock %}
+
+{% block styles %}
+<style>
+  .quiz-wrap {
+    max-width: 44rem;
+  }
+
+  .progress-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: var(--space-2);
+    text-align: right;
+  }
+
+  .progress-bar-track {
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border);
+    margin-bottom: var(--space-4);
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .question-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-l);
+    background: linear-gradient(160deg, var(--surface-elevated), var(--surface));
+    padding: var(--space-5);
+    box-shadow: var(--shadow);
+    animation: fadeUp 0.3s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .q-number {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: var(--space-2);
+  }
+
+  .q-text {
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 2.2vw, 1.15rem);
+    line-height: 1.55;
+    color: var(--text);
+    margin-bottom: var(--space-4);
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .option-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-m);
+    padding: 0.7rem var(--space-3);
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: var(--text);
+    text-align: left;
+    transition: border-color 0.15s, background 0.15s, transform 0.15s;
+    width: 100%;
+  }
+
+  .option-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    transform: translateX(3px);
+  }
+
+  .option-btn:disabled { cursor: default; transform: none; }
+
+  .option-btn.correct {
+    border-color: #2d6a4f;
+    background: color-mix(in srgb, #2d6a4f 12%, var(--surface-elevated));
+    color: var(--text);
+  }
+
+  .option-btn.wrong {
+    border-color: #b33a3a;
+    background: color-mix(in srgb, #b33a3a 10%, var(--surface-elevated));
+    color: var(--text);
+  }
+
+  .option-btn.reveal {
+    border-color: #2d6a4f;
+    background: color-mix(in srgb, #2d6a4f 8%, var(--surface-elevated));
+    opacity: 0.75;
+  }
+
+  .opt-letter {
+    min-width: 1.4rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+
+  .explanation {
+    margin-top: var(--space-3);
+    padding: var(--space-3) var(--space-3);
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+    border-radius: 0 var(--radius-s) var(--radius-s) 0;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--text-muted);
+    animation: fadeUp 0.25s ease both;
+  }
+
+  .explanation strong { color: var(--text); }
+
+  .quiz-nav {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: var(--space-3);
+  }
+
+  .btn-next {
+    padding: 0.6rem 1.4rem;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 999px;
+    border: 1px solid var(--accent);
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, transform 0.15s;
+  }
+
+  .btn-next:hover { background: var(--accent-strong); border-color: var(--accent-strong); transform: translateY(-1px); }
+  .btn-next:disabled { background: var(--border); border-color: var(--border); color: var(--text-muted); cursor: default; transform: none; }
+
+  /* Results */
+  .results-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-l);
+    background: linear-gradient(160deg, var(--surface-elevated), var(--surface));
+    padding: var(--space-6) var(--space-5);
+    box-shadow: var(--shadow);
+    text-align: center;
+    animation: fadeUp 0.35s ease both;
+  }
+
+  .results-score {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 10vw, 4.5rem);
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin: var(--space-3) 0 var(--space-1);
+  }
+
+  .results-pct {
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .results-verdict {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--text-muted);
+    max-width: 38ch;
+    margin: 0 auto var(--space-4);
+  }
+
+  .results-breakdown {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-4);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: var(--space-5);
+  }
+
+  .results-breakdown span { display: flex; align-items: center; gap: 0.4rem; }
+
+  .dot {
+    width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex-shrink: 0;
+  }
+  .dot-correct { background: #2d6a4f; }
+  .dot-wrong   { background: #b33a3a; }
+
+  .btn-restart {
+    padding: 0.6rem 1.6rem;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 999px;
+    border: 1.5px solid var(--accent);
+    background: transparent;
+    color: var(--accent);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-restart:hover { background: var(--accent); color: #fff; }
+
+  /* Start screen */
+  .start-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-l);
+    background: linear-gradient(160deg, var(--surface-elevated), var(--surface));
+    padding: var(--space-5);
+    box-shadow: var(--shadow);
+    animation: fadeUp 0.3s ease both;
+  }
+
+  .start-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: var(--space-3);
+  }
+
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: var(--space-2);
+  }
+
+  .cat-btn {
+    padding: 0.75rem var(--space-3);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: var(--radius-m);
+    border: 1.5px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, transform 0.15s;
+    text-align: center;
+  }
+
+  .cat-btn:hover {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    transform: translateY(-2px);
+  }
+
+  .cat-btn.all {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .cat-btn.all:hover { background: var(--accent-strong); border-color: var(--accent-strong); }
+
+  .results-actions {
+    display: flex;
+    gap: var(--space-2);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 520px) {
+    .question-card { padding: var(--space-4) var(--space-3); }
+    .results-card  { padding: var(--space-5) var(--space-3); }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="page-intro">
+  <p class="eyebrow">Test your understanding!</p>
+  <h1 class="main-heading">Microbes Quiz</h1>
+  <p class="lead">Pick a topic to get quizzed on.</p>
+</section>
+
+<div class="quiz-wrap" id="quiz-area"></div>
+{% endblock %}
+
+{% block script %}
+<script>
+const allQuestions = [
+  {
+    category: "extremophiles",
+    q: "Which enzyme from <i>Pyrococcus furiosus</i> is widely used in PCR because of its high fidelity?",
+    options: ["Taq polymerase", "Pfu DNA polymerase", "RNA polymerase II", "Reverse transcriptase"],
+    answer: 1,
+    explain: "<i>Pyrococcus furiosus</i> produces Pfu DNA polymerase, a heat-stable enzyme that makes fewer copying errors than the more common Taq polymerase, making it valuable for high-accuracy PCR applications."
+  },
+  {
+    category: "extremophiles",
+    q: "What is the primary reason <i>Geobacillus stearothermophilus</i> spores are used as biological indicators in sterilization?",
+    options: [
+      "They glow under UV light when sterilization fails.",
+      "They are inexpensive to produce in large quantities.",
+      "Their hardy spores can survive many processing conditions, confirming sterilization only if they are killed.",
+      "They produce a detectable toxin that indicates heat exposure."
+    ],
+    answer: 2,
+    explain: "Because <i>G. stearothermophilus</i> spores are among the most heat-resistant biological entities known, a sterilization method that kills them is considered effective — making them a reliable worst-case benchmark."
+  },
+  {
+    category: "extremophiles",
+    q: "Halophiles are found in hypersaline environments. What distinguishes extreme halophiles like <i>Halobacterium salinarum</i> from halotolerant organisms?",
+    options: [
+      "Halotolerant organisms die in fresh water; extreme halophiles can survive it.",
+      "Extreme halophiles require high salt concentrations to grow, while halotolerant organisms merely survive them.",
+      "Extreme halophiles produce salt as a metabolic byproduct.",
+      "Halotolerant organisms are exclusively bacteria; extreme halophiles are exclusively archaea."
+    ],
+    answer: 1,
+    explain: "Extreme halophiles like <i>Halobacterium salinarum</i> are obligate — they need high salt to maintain cell integrity and metabolism. Halotolerant organisms can cope with salt but do not require it for growth."
+  },
+  {
+    category: "extremophiles",
+    q: "Snottites are cave biofilms primarily composed of which type of microorganism?",
+    options: [
+      "Methanogenic archaea",
+      "Sulfur-oxidizing bacteria such as <i>Acidithiobacillus</i>",
+      "Thermophilic cyanobacteria",
+      "Iron-reducing Firmicutes"
+    ],
+    answer: 1,
+    explain: "Snottites are stalactite-like biofilms found in caves with hydrogen sulfide seeps. They are dominated by sulfur-oxidizing bacteria (notably <i>Acidithiobacillus thiooxidans</i>) that produce sulfuric acid, creating pH values near zero."
+  },
+  {
+    category: "symbionts",
+    q: "<i>Bacteroides thetaiotaomicron</i> is a key member of the human gut microbiome. What is its primary metabolic contribution to the host?",
+    options: [
+      "Synthesizing vitamin B12 for host absorption",
+      "Breaking down complex dietary polysaccharides the host cannot digest",
+      "Producing short-chain fatty acids from protein fermentation only",
+      "Preventing colonization by pathogens through antibiotic secretion"
+    ],
+    answer: 1,
+    explain: "<i>B. thetaiotaomicron</i> encodes an unusually large repertoire of polysaccharide utilization loci (PULs) that let it degrade diverse plant fibers, yielding short-chain fatty acids the host uses as an energy source."
+  },
+  {
+    category: "symbionts",
+    q: "In the mutualistic symbiosis between legumes and <i>Rhizobium</i> bacteria, what does the plant provide in exchange for fixed nitrogen?",
+    options: [
+      "Oxygen from photosynthesis to power nitrogenase",
+      "Carbon compounds (photosynthate) as an energy source for the bacteria",
+      "Phosphate solubilized from soil minerals",
+      "Protective antimicrobial peptides that shield the nodule from competing microbes"
+    ],
+    answer: 1,
+    explain: "Inside root nodules, <i>Rhizobium</i> converts atmospheric N₂ to ammonia for the plant. In return, the plant supplies fixed carbon (mainly as malate) to power the energetically costly nitrogenase reaction."
+  },
+  {
+    category: "symbionts",
+    q: "Coral bleaching is caused when corals expel their symbiotic algae. What are these algae called?",
+    options: ["Cyanobacteria", "Zooxanthellae (Symbiodiniaceae)", "Chlorella", "Spirulina"],
+    answer: 1,
+    explain: "Corals host dinoflagellate algae called zooxanthellae (now classified in family Symbiodiniaceae) within their tissues. Heat or other stress causes the coral to expel them, losing up to 90% of its energy supply and turning white — bleaching."
+  },
+  {
+    category: "parasites",
+    q: "The Red Queen hypothesis, as applied to host–parasite interactions, predicts that:",
+    options: [
+      "Parasites eventually evolve to become mutualists over geological time.",
+      "Hosts and parasites engage in continuous coevolutionary arms races, with each side evolving new adaptations in response to the other.",
+      "Sexual reproduction provides no advantage over asexual reproduction in parasite-rich environments.",
+      "Parasites always out-evolve hosts because of shorter generation times."
+    ],
+    answer: 1,
+    explain: "The Red Queen hypothesis holds that hosts must constantly evolve new defenses (including, some argue, the genetic diversity generated by sex) just to stay even with rapidly adapting parasites — a perpetual evolutionary race with no endpoint."
+  },
+  {
+    category: "parasites",
+    q: "<i>Plasmodium falciparum</i> completes part of its life cycle in <i>Anopheles</i> mosquitoes and part in human hosts. Which stage is infectious to humans?",
+    options: ["Merozoites", "Gametocytes", "Sporozoites", "Trophozoites"],
+    answer: 2,
+    explain: "Sporozoites are the stage injected into the human bloodstream during a mosquito bite. They travel to the liver for initial replication before entering red blood cells as merozoites. Gametocytes are the stage taken up by the mosquito to continue the cycle."
+  },
+  {
+    category: "parasites",
+    q: "<i>Bdellovibrio bacteriovorus</i> is unusual among bacteria because it:",
+    options: [
+      "Survives without any carbon source by fixing CO₂ chemolithotropically.",
+      "Preys on other gram-negative bacteria, entering the periplasm and replicating inside the prey cell.",
+      "Forms endospores that can persist for thousands of years.",
+      "Produces oxygen as a metabolic byproduct in anaerobic environments."
+    ],
+    answer: 1,
+    explain: "<i>Bdellovibrio bacteriovorus</i> is a predatory bacterium that attaches to gram-negative prey, bores through the outer membrane, and replicates inside the periplasmic space — ultimately lysing the host cell to release new predatory cells."
+  }
+];
+
+const categoryLabels = {
+  all:           "All topics",
+  extremophiles: "Extremophiles",
+  symbionts:     "Symbionts",
+  parasites:     "Parasites",
+};
+
+let activeQuestions = [];
+let currentCategory = "all";
+let current = 0, score = 0;
+let answered = [];
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startQuiz(category) {
+  currentCategory = category;
+  const pool = category === "all"
+    ? allQuestions
+    : allQuestions.filter(q => q.category === category);
+  activeQuestions = shuffle(pool);
+  current = 0; score = 0;
+  answered = new Array(activeQuestions.length).fill(false);
+  render();
+}
+
+function renderStart() {
+  const area = document.getElementById('quiz-area');
+  area.innerHTML = `
+    <div class="start-card">
+      <p class="start-label">Choose a category</p>
+      <div class="category-grid">
+        <button class="cat-btn all" onclick="startQuiz('all')">All topics</button>
+        <button class="cat-btn" onclick="startQuiz('extremophiles')">Extremophiles</button>
+        <button class="cat-btn" onclick="startQuiz('symbionts')">Symbionts</button>
+        <button class="cat-btn" onclick="startQuiz('parasites')">Parasites</button>
+      </div>
+    </div>
+  `;
+}
+
+function render() {
+  const area = document.getElementById('quiz-area');
+  if (current >= activeQuestions.length) { renderResults(area); return; }
+
+  const q = activeQuestions[current];
+  const letters = ['A', 'B', 'C', 'D'];
+  const pct = (current / activeQuestions.length) * 100;
+
+  area.innerHTML = `
+    <div class="progress-label">Question ${current + 1} of ${activeQuestions.length} — ${categoryLabels[currentCategory]}</div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    <div class="question-card">
+      <div class="q-number">Question ${current + 1}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options" id="options">
+        ${q.options.map((o, i) => `
+          <button class="option-btn" id="opt${i}" onclick="choose(${i})">
+            <span class="opt-letter">${letters[i]}.</span>
+            <span>${o}</span>
+          </button>
+        `).join('')}
+      </div>
+      <div id="explanation"></div>
+    </div>
+    <div class="quiz-nav">
+      <button class="btn-next" id="btn-next" disabled onclick="nextQ()">
+        ${current + 1 < activeQuestions.length ? 'Next →' : 'See results →'}
+      </button>
+    </div>
+  `;
+}
+
+function choose(idx) {
+  if (answered[current]) return;
+  answered[current] = true;
+
+  const correct = activeQuestions[current].answer;
+  const btns = document.querySelectorAll('.option-btn');
+  btns.forEach(b => b.disabled = true);
+  btns[idx].classList.add(idx === correct ? 'correct' : 'wrong');
+  if (idx !== correct) btns[correct].classList.add('reveal');
+  if (idx === correct) score++;
+
+  document.getElementById('explanation').innerHTML = `
+    <div class="explanation">
+      <strong>${idx === correct ? '✓ Correct.' : '✗ Not quite.'}</strong> ${activeQuestions[current].explain}
+    </div>
+  `;
+  document.getElementById('btn-next').disabled = false;
+}
+
+function nextQ() { current++; render(); }
+
+function renderResults(area) {
+  const pct = Math.round((score / activeQuestions.length) * 100);
+  const verdicts = [
+    [90, "Outstanding — you know your microbes inside and out."],
+    [70, "Solid grasp of the material. A few details are worth revisiting."],
+    [50, "You have the broad picture, but some specifics slipped by."],
+    [0,  "Worth another pass through the content — microbes are tricky!"]
+  ];
+  const verdict = verdicts.find(([min]) => pct >= min)[1];
+
+  area.innerHTML = `
+    <div class="results-card">
+      <p class="eyebrow">Quiz complete — ${categoryLabels[currentCategory]}</p>
+      <div class="results-score">${score}/${activeQuestions.length}</div>
+      <div class="results-pct">${pct}% correct</div>
+      <p class="results-verdict">${verdict}</p>
+      <div class="results-breakdown">
+        <span><span class="dot dot-correct"></span> ${score} correct</span>
+        <span><span class="dot dot-wrong"></span> ${activeQuestions.length - score} incorrect</span>
+      </div>
+      <div class="results-actions">
+        <button class="btn-restart" onclick="startQuiz('${currentCategory}')">Retake</button>
+        <button class="btn-restart" onclick="renderStart()">Change category</button>
+      </div>
+    </div>
+  `;
+}
+
+renderStart();
+</script>
+{% endblock %}

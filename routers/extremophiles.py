@@ -1,8 +1,8 @@
 from fastapi import APIRouter
+from fastapi.requests import Request
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse
-from fastapi.requests import Request
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
@@ -14,7 +14,7 @@ def extremophiles(request: Request):
 
 
 @router.get("/radioresistant", response_class=HTMLResponse)
-def radioresistant(request: HTMLResponse):
+def radioresistant(request: Request):
     return templates.TemplateResponse(request, "extremophiles/radioresistant.html")
 
 
