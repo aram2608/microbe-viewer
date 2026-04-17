@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Quiz — Microbe Browser{% endblock %}
+{% block title %}Quiz : Microbe Browser{% endblock %}
 
 {% block styles %}
 <style>
@@ -497,7 +497,7 @@ function render() {
   const pct = (current / activeQuestions.length) * 100;
 
   area.innerHTML = `
-    <div class="progress-label">Question ${current + 1} of ${activeQuestions.length} — ${categoryLabels[currentCategory]}</div>
+    <div class="progress-label">Question ${current + 1} of ${activeQuestions.length} : ${categoryLabels[currentCategory]}</div>
     <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
     <div class="question-card">
       <div class="q-number">Question ${current + 1}</div>
@@ -553,7 +553,7 @@ function renderResults(area) {
 
   area.innerHTML = `
     <div class="results-card">
-      <p class="eyebrow">Quiz complete — ${categoryLabels[currentCategory]}</p>
+      <p class="eyebrow">Quiz complete : ${categoryLabels[currentCategory]}</p>
       <div class="results-score">${score}/${activeQuestions.length}</div>
       <div class="results-pct">${pct}% correct</div>
       <p class="results-verdict">${verdict}</p>
